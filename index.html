@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071710">
+<title>HalalFauna — Ensiklopedia Islam</title>
+<style>
+:root{
+ --bg:#081610;--panel:#10271d;--panel2:#173629;
+ --text:#f1f5e9;--muted:#aabaae;--green:#b9f39c;
+ --gold:#e7c982;--line:#ffffff18;--danger:#ffb6aa;
+ --font:16px
+}
+body.light{
+ --bg:#f2f6ed;--panel:#fff;--panel2:#e6efe1;
+ --text:#1b3024;--muted:#627367;--green:#246d3e;
+ --gold:#80601c;--line:#172c221e;--danger:#a92e2e
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+ margin:0;background:radial-gradient(ellipse at 80% 0%,#204d342c,transparent 40%),var(--bg);
+ color:var(--text);font:var(--font)/1.75 system-ui,sans-serif;
+ transition:background .2s,color .2s
+}
+button,input,select{font:inherit}
+button,a{touch-action:manipulation}
+button{cursor:pointer}
+a{color:var(--green)}
+header{
+ position:sticky;top:0;z-index:10;padding:12px 5%;
+ display:flex;justify-content:space-between;align-items:center;gap:16px;
+ background:var(--bg);border-bottom:1px solid var(--line)
+}
+.logo{font-size:1.3em;font-weight:950;letter-spacing:-1px;white-space:nowrap}
+.logo span{color:var(--green)}
+nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+nav a{font-size:.82em;color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--green)}
+button,.btn{
+ border:1px solid var(--line);border-radius:12px;background:var(--panel2);
+ color:var(--text);padding:9px 13px;text-decoration:none
+}
+button:hover,.btn:hover{border-color:var(--green)}
+main{max-width:1180px;padding:25px 22px 75px;margin:auto}
+.hero{
+ min-height:410px;padding:70px 5%;border:1px solid var(--line);
+ border-radius:28px;background:linear-gradient(125deg,#153d2a,#0b2117 75%);
+ display:flex;align-items:center;overflow:hidden;position:relative
+}
+body.light .hero{background:linear-gradient(125deg,#dcefd9,#f8fff5)}
+.hero:after{
+ content:"☾";position:absolute;right:5%;top:0;font-size:clamp(150px,30vw,320px);
+ color:#b9f39c0c;line-height:1;pointer-events:none
+}
+.hero-content{max-width:760px;position:relative;z-index:1}
+.eyebrow{color:var(--green);font-weight:850;font-size:.76em;letter-spacing:2px}
+h1{font-size:clamp(2.5em,7vw,5.4em);line-height:1.06;letter-spacing:-3px;margin:16px 0}
+h1 em{font-style:normal;color:var(--green)}
+p{color:var(--muted)}
+.hero p{font-size:1.08em;max-width:650px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+.btn.primary{background:var(--green);color:#102519;border-color:var(--green);font-weight:850}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0 55px}
+.stat{padding:19px;background:var(--panel);border:1px solid var(--line);border-radius:17px}
+.stat b{display:block;color:var(--gold);font-size:1.3em}
+.stat span{color:var(--muted);font-size:.83em}
+.section{margin-top:54px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+h2{font-size:clamp(1.65em,4vw,2.3em);line-height:1.2;margin:5px 0}
+h3{line-height:1.35}
+.tools{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+input,select{
+ color:var(--text);background:var(--panel);border:1px solid var(--line);
+ border-radius:12px;padding:12px
+}
+#search{flex:1;min-width:180px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+.filters button{border-radius:30px;color:var(--muted)}
+.filters button.active{background:var(--green);color:#102519;border-color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card,.box{
+ background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden
+}
+.card{transition:transform .18s,border-color .18s}
+.card:hover{transform:translateY(-3px);border-color:var(--green)}
+.animal-art{
+ height:130px;display:grid;place-items:center;font-size:4em;
+ background:radial-gradient(ellipse,var(--panel2),var(--panel))
+}
+.card-body{padding:18px}
+.card h3{margin:0;font-size:1.2em}
+.pill{display:inline-block;font-size:.72em;font-weight:850;border-radius:30px;padding:4px 9px;margin:8px 0}
+.pill.halal{background:#245337;color:#c5ffb2}
+.pill.haram{background:#542c2c;color:#ffc4ba}
+.pill.review{background:#574725;color:#ffe2a0}
+body.light .pill.halal{background:#d9f2d9;color:#20552b}
+body.light .pill.haram{background:#ffe0db;color:#8d2929}
+body.light .pill.review{background:#f8ebc5;color:#705116}
+.card p{font-size:.91em}
+.ref{border-top:1px solid var(--line);padding-top:10px;font-size:.8em;color:var(--gold)}
+.empty{display:none;padding:25px;border:1px dashed var(--line);border-radius:14px;color:var(--muted)}
+.callout{padding:20px;border:1px solid #b9f39c55;border-radius:17px;background:var(--panel);margin-top:17px}
+.callout strong{color:var(--green)}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.box{padding:22px}
+.box h3{margin-top:0;color:var(--green)}
+.box h4{color:var(--gold);margin:20px 0 5px}
+.box li{margin:7px 0;color:var(--muted)}
+.box ul,.box ol{padding-left:23px}
+.quote{padding:15px;margin:14px 0;background:var(--panel2);border-left:3px solid var(--gold);border-radius:0 12px 12px 0}
+.arabic{font-family:serif;font-size:1.65em;line-height:2.1;text-align:right;color:var(--text);overflow-wrap:anywhere}
+.translation{font-style:italic}
+.source{font-size:.82em;color:var(--gold)}
+.box a{font-size:.88em}
+.toc{display:flex;gap:9px;flex-wrap:wrap}
+.toc a{padding:8px 12px;border:1px solid var(--line);border-radius:30px;text-decoration:none;font-size:.85em}
+table{width:100%;border-collapse:collapse;font-size:.91em}
+th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--gold)}
+.table-wrap{overflow-x:auto}
+footer{text-align:center;padding:35px 20px;border-top:1px solid var(--line);color:var(--muted);font-size:.85em}
+@media(max-width:850px){
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ header{padding:12px 3%}nav{gap:9px}
+ nav a{font-size:.76em}
+}
+@media(max-width:620px){
+ .lesson-grid{grid-template-columns:1fr}
+ main{padding:17px 13px 55px}
+ .hero{padding:42px 22px;min-height:360px}
+ h1{letter-spacing:-2px}
+ .stats{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:35px}
+ .stat{padding:13px}
+ .grid{grid-template-columns:1fr}
+ .animal-art{height:105px}
+ header{align-items:flex-start;flex-direction:column}
+ nav{width:100%}
+ nav a{font-size:.78em}
+ .box{padding:17px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">☾ Halal<span>Fauna</span></div>
+ <nav>
+  <a href="#beranda">Beranda</a>
+  <a href="#hewan">Katalog</a>
+  <a href="#halal">Hewan halal</a>
+  <a href="#haram">Hewan haram</a>
+  <a href="#dalil">Dalil</a>
+  <a href="#hadis">Hadis</a>
+  <button id="theme" aria-label="Ganti tema">☀️</button>
+ </nav>
+</header>
+
+<main>
+<section class="hero" id="beranda">
+ <div class="hero-content">
+  <div class="eyebrow">ENSIKLOPEDIA ISLAM • BELAJAR BERDASARKAN DALIL</div>
+  <h1>Mengenal hewan<br><em>halal & haram.</em></h1>
+  <p>Jelajahi jenis hewan, pelajari ketentuan makanan dalam Islam, dan temukan referensi Al-Qur'an serta hadis dalam satu website edukasi.</p>
+  <div class="actions">
+   <a class="btn primary" href="#hewan">Jelajahi katalog ↗</a>
+   <a class="btn" href="#dalil">Pelajari dalil ↓</a>
+  </div>
+ </div>
+</section>
+
+<div class="stats">
+ <div class="stat"><b>Al-Qur'an</b><span>Dalil utama syariat</span></div>
+ <div class="stat"><b>Hadis</b><span>Penjelasan Rasulullah ﷺ</span></div>
+ <div class="stat"><b>20+ contoh</b><span>Katalog pembelajaran</span></div>
+ <div class="stat"><b>Gratis</b><span>Satu file HTML</span></div>
+</div>
+
+<section class="section" id="hewan">
+ <div class="section-head">
+  <div><div class="eyebrow">01 / KATALOG</div><h2>Ensiklopedia hewan</h2><p>Cari nama hewan atau telusuri kategori di bawah.</p></div>
+ </div>
+ <div class="tools">
+  <input id="search" placeholder="🔎 Cari hewan, kategori, atau dalil..." aria-label="Cari hewan">
+  <select id="sort" aria-label="Urutan">
+   <option value="default">Urutan awal</option><option value="az">Nama A–Z</option>
+  </select>
+ </div>
+ <div class="filters">
+  <button class="active" data-filter="semua">Semua</button>
+  <button data-filter="halal">Halal</button>
+  <button data-filter="haram">Haram</button>
+  <button data-filter="perlu">Perlu penjelasan</button>
+ </div>
+ <div class="grid" id="grid"></div>
+ <div class="empty" id="empty">Tidak ditemukan. Coba kata kunci lain.</div>
+ <div class="callout"><strong>Catatan:</strong> Status pada katalog merupakan ringkasan edukasi. Beberapa hewan memiliki perbedaan hukum menurut mazhab. Kehalalan juga bisa dipengaruhi cara memperoleh, penyembelihan, dan kondisi hewan.</div>
+</section>
+
+<section class="section" id="halal">
+ <div class="section-head"><div><div class="eyebrow">02 / PEMBELAJARAN</div><h2>Pengertian hewan halal</h2></div></div>
+ <div class="lesson-grid">
+  <article class="box">
+   <h3>🌿 Apa itu hewan halal?</h3>
+   <p>Hewan halal adalah hewan yang diizinkan untuk dikonsumsi berdasarkan ketentuan syariat Islam. Status tersebut ditentukan oleh dalil, jenis hewan, cara memperolehnya, dan ketentuan penyembelihan jika berlaku.</p>
+   <h4>Syarat umum</h4>
+   <ul>
+    <li>Jenis hewannya diperbolehkan menurut syariat.</li>
+    <li>Diperoleh melalui cara yang dibenarkan.</li>
+    <li>Untuk hewan yang wajib disembelih, penyembelihannya memenuhi ketentuan syariat.</li>
+    <li>Tidak tercampur atau terkena najis yang memengaruhi kehalalannya.</li>
+    <li>Tidak membahayakan dan tidak berada dalam keadaan yang membuatnya terlarang.</li>
+   </ul>
+  </article>
+  <article class="box">
+   <h3>🐄 Contoh hewan halal</h3>
+   <h4>Hewan ternak</h4><p>Sapi, kambing, domba, kerbau, dan unta.</p>
+   <h4>Hewan buruan</h4><p>Rusa, kijang, kelinci, dan hewan buruan lain yang diperbolehkan sesuai ketentuan berburu.</p>
+   <h4>Unggas</h4><p>Ayam, bebek, angsa, merpati, dan puyuh.</p>
+   <h4>Hewan air</h4><p>Ikan dan berbagai hewan laut. Rincian beberapa spesies dapat berbeda menurut mazhab.</p>
+   <h4>Pengecualian bangkai</h4><p>Ikan dan belalang memiliki ketentuan khusus dalam hadis.</p>
+  </article>
+ </div>
+</section>
+
+<section class="section" id="haram">
+ <div class="section-head"><div><div class="eyebrow">03 / PEMBELAJARAN</div><h2>Pengertian hewan haram</h2></div></div>
+ <div class="lesson-grid">
+  <article class="box">
+   <h3>⛔ Apa itu hewan haram?</h3>
+   <p>Hewan atau makanan haram adalah sesuatu yang dilarang untuk dikonsumsi berdasarkan dalil syariat. Tidak semua hewan yang dianggap menjijikkan atau berbahaya memiliki hukum yang sama; penilaiannya memerlukan dalil dan pembahasan fikih.</p>
+   <h4>Kelompok yang perlu diketahui</h4>
+   <ul>
+    <li><b>Babi:</b> dagingnya secara tegas diharamkan dalam Al-Qur'an.</li>
+    <li><b>Hewan buas bertaring:</b> seperti singa, harimau, serigala, dan beruang.</li>
+    <li><b>Burung pemangsa bercakar:</b> seperti elang dan rajawali.</li>
+    <li><b>Bangkai:</b> hewan yang mati tanpa penyembelihan sah, dengan pengecualian syariat.</li>
+    <li><b>Darah yang mengalir:</b> termasuk makanan yang dilarang.</li>
+    <li><b>Hewan berbahaya atau beracun:</b> dapat dilarang karena bahaya yang ditimbulkannya.</li>
+   </ul>
+  </article>
+  <article class="box">
+   <h3>⚖️ Hewan yang memerlukan penjelasan</h3>
+   <p>Beberapa kategori tidak boleh langsung digeneralisasi hanya berdasarkan nama atau penampilan hewannya.</p>
+   <ul>
+    <li><b>Anjing:</b> hukum konsumsi dibahas tersendiri dalam fikih; jangan menyamakan semua kategori hewan tanpa dalil.</li>
+    <li><b>Serangga dan cacing:</b> terdapat rincian dan perbedaan pendapat ulama mengenai spesies tertentu.</li>
+    <li><b>Hewan yang diperintahkan dibunuh:</b> perintah membunuh hewan tertentu tidak otomatis berarti status konsumsi seluruh spesies dapat ditetapkan hanya dari perintah tersebut.</li>
+    <li><b>Hewan yang dilarang dibunuh:</b> hadis mengenai perlindungan hewan tidak otomatis menjelaskan seluruh hukum konsumsi.</li>
+    <li><b>Bangkai hewan laut:</b> memiliki pengecualian yang dijelaskan dalam dalil.</li>
+   </ul>
+   <p>Untuk kasus tertentu, rujuk ulama atau lembaga fatwa tepercaya.</p>
+  </article>
+ </div>
+</section>
+
+<section class="section" id="dalil">
+ <div class="section-head"><div><div class="eyebrow">04 / AL-QUR'AN</div><h2>Dalil naqli tentang makanan</h2></div></div>
+ <div class="lesson-grid">
+  <article class="box">
+   <h3>📖 QS. Al-Ma'idah: 1</h3>
+   <p class="translation">“Dihalalkan bagimu binatang ternak, kecuali yang akan dibacakan kepadamu...”</p>
+   <p>Ayat ini menjelaskan kebolehan hewan ternak dengan tetap memperhatikan pengecualian dan aturan yang dijelaskan dalam syariat.</p>
+   <a href="https://quran.com/5/1" target="_blank" rel="noopener">Baca ayat lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>📖 QS. Al-Ma'idah: 3</h3>
+   <div class="arabic" lang="ar" dir="rtl">حُرِّمَتْ عَلَيْكُمُ الْمَيْتَةُ وَالدَّمُ وَلَحْمُ الْخِنزِيرِ</div>
+   <p class="translation">“Diharamkan bagimu (memakan) bangkai, darah, daging babi...”</p>
+   <p>Ayat ini menerangkan sejumlah larangan makanan, termasuk bangkai, darah, dan daging babi, serta kategori hewan yang mati dengan cara tertentu.</p>
+   <a href="https://quran.com/5/3" target="_blank" rel="noopener">Baca ayat lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>📖 QS. Al-Ma'idah: 96</h3>
+   <p class="translation">“Dihalalkan bagimu binatang buruan laut dan makanan yang berasal dari laut sebagai makanan yang lezat bagimu...”</p>
+   <p>Ayat ini menjadi dalil penting tentang makanan yang berasal dari laut.</p>
+   <a href="https://quran.com/5/96" target="_blank" rel="noopener">Baca ayat lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>📖 QS. Al-An'am: 145</h3>
+   <p>Ayat ini menyebut bangkai, darah yang mengalir, daging babi, dan hewan yang disembelih dengan menyebut selain Allah dalam konteks larangan makanan.</p>
+   <a href="https://quran.com/6/145" target="_blank" rel="noopener">Baca ayat lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>📖 QS. Al-Baqarah: 168</h3>
+   <p class="translation">“Wahai manusia! Makanlah dari (makanan) yang halal dan baik yang terdapat di bumi...”</p>
+   <p>Ayat ini mengajarkan agar manusia memilih makanan yang halal dan baik.</p>
+   <a href="https://quran.com/2/168" target="_blank" rel="noopener">Baca ayat lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>📖 QS. Al-A'raf: 157</h3>
+   <p>Ayat ini menyebut bahwa Rasul menghalalkan yang baik dan mengharamkan yang buruk. Penerapannya harus dipahami bersama penjelasan dalil dan fikih.</p>
+   <a href="https://quran.com/7/157" target="_blank" rel="noopener">Baca ayat lengkap ↗</a>
+  </article>
+ </div>
+</section>
+
+<section class="section" id="hadis">
+ <div class="section-head"><div><div class="eyebrow">05 / SUNAH RASULULLAH ﷺ</div><h2>Hadis tentang makanan halal & haram</h2></div></div>
+ <div class="lesson-grid">
+  <article class="box">
+   <h3>🐟 1. Dua bangkai dan dua darah</h3>
+   <p>Hadis menerangkan pengecualian tertentu terkait ikan, belalang, hati, dan limpa.</p>
+   <div class="arabic" lang="ar" dir="rtl">أُحِلَّتْ لَنَا مَيْتَتَانِ وَدَمَانِ</div>
+   <p class="translation">“Dihalalkan bagi kita dua bangkai dan dua darah...”</p>
+   <p>Riwayat ini dikenal sebagai hadis Ibnu Umar tentang dua bangkai dan dua darah.</p>
+   <p><b>HR. Ibnu Majah 3314</b></p>
+   <a href="https://sunnah.com/ibnmajah:3314" target="_blank" rel="noopener">Periksa teks hadis ↗</a>
+  </article>
+  <article class="box">
+   <h3>🦁 2. Hewan buas bertaring</h3>
+   <p>Rasulullah ﷺ melarang memakan hewan buas yang memiliki taring.</p>
+   <p>Hadis ini menjadi dasar larangan mengonsumsi kelompok hewan buas tertentu, seperti singa dan harimau.</p>
+   <p><b>HR. Sahih Muslim 1934a</b></p>
+   <a href="https://sunnah.com/muslim:1934a" target="_blank" rel="noopener">Baca hadis lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>🦅 3. Burung pemangsa</h3>
+   <p>Dalam riwayat Ibnu Abbas, terdapat larangan mengenai hewan buas bertaring dan burung yang memiliki cakar untuk memangsa.</p>
+   <p>Hadis ini digunakan ulama dalam pembahasan hukum konsumsi burung pemangsa.</p>
+   <p><b>HR. Sahih Muslim 1934a</b></p>
+   <a href="https://sunnah.com/muslim:1934a" target="_blank" rel="noopener">Baca hadis lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>🤲 4. Makanan haram dan terkabulnya doa</h3>
+   <p>Rasulullah ﷺ mengisahkan seorang musafir yang berdoa sambil mengangkat tangannya. Namun, makanan, minuman, pakaian, dan sumber pemenuhan kebutuhannya berasal dari yang haram.</p>
+   <div class="arabic" lang="ar" dir="rtl">مَطْعَمُهُ حَرَامٌ، وَمَشْرَبُهُ حَرَامٌ، وَمَلْبَسُهُ حَرَامٌ، وَغُذِيَ بِالْحَرَامِ، فَأَنَّى يُسْتَجَابُ لِذَلِكَ</div>
+   <blockquote class="quote translation">“Makanannya haram, minumannya haram, pakaiannya haram, dan ia diberi makan dengan yang haram. Maka bagaimana mungkin doanya akan dikabulkan?”</blockquote>
+   <p><b>HR. Sahih Muslim 1015</b></p>
+   <p><b>Pelajaran:</b> Muslim dianjurkan memperhatikan sumber makanan, minuman, pakaian, dan penghasilannya.</p>
+   <a href="https://sunnah.com/muslim:1015" target="_blank" rel="noopener">Baca hadis lengkap ↗</a>
+  </article>
+  <article class="box">
+   <h3>⚖️ 5. Peringatan tentang tubuh yang tumbuh dari yang haram</h3>
+   <div class="arabic" lang="ar" dir="rtl">كُلُّ جَسَدٍ نَبَتَ مِنْ سُحْتٍ فَالنَّارُ أَوْلَى بِهِ</div>
+   <p class="translation">“Setiap tubuh yang tumbuh dari sesuatu yang haram, maka neraka lebih pantas baginya.”</p>
+   <p>Riwayat ini dinukil dalam pembahasan mencari rezeki halal. Redaksi, nomor, dan penilaian sanad perlu diperiksa pada edisi hadis yang digunakan.</p>
+   <p><b>Diriwayatkan dalam Jami' at-Tirmidzi</b></p>
+   <a href="https://sunnah.com/search?q=every+body+that+has+grown+from+unlawful" target="_blank" rel="noopener">Cari dan periksa riwayat ↗</a>
+  </article>
+  <article class="box">
+   <h3>🍃 6. Halal, haram, dan perkara syubhat</h3>
+   <p>Dalam hadis Nu'man bin Basyir, Rasulullah ﷺ menjelaskan bahwa perkara halal itu jelas dan perkara haram itu jelas. Di antara keduanya terdapat perkara yang samar bagi sebagian orang.</p>
+   <p>Hadis ini mengajarkan kehati-hatian terhadap perkara yang belum jelas hukumnya.</p>
+   <p><b>HR. Sahih al-Bukhari 52; Sahih Muslim 1599</b></p>
+   <a href="https://sunnah.com/bukhari:52" target="_blank" rel="noopener">Baca hadis ↗</a>
+  </article>
+ </div>
+</section>
+
+<section class="section" id="ringkasan">
+ <div class="section-head"><div><div class="eyebrow">06 / RINGKASAN</div><h2>Perbandingan singkat</h2></div></div>
+ <div class="box table-wrap">
+  <table>
+   <thead><tr><th>Kategori</th><th>Contoh</th><th>Rujukan</th><th>Catatan</th></tr></thead>
+   <tbody>
+    <tr><td>Hewan ternak</td><td>Sapi, kambing, domba</td><td>QS. 5:1</td><td>Perhatikan ketentuan penyembelihan.</td></tr>
+    <tr><td>Hewan laut</td><td>Ikan</td><td>QS. 5:96</td><td>Rincian hewan air tertentu dapat berbeda menurut mazhab.</td></tr>
+    <tr><td>Bangkai khusus</td><td>Ikan dan belalang</td><td>HR. Ibnu Majah 3314</td><td>Termasuk pengecualian yang disebut dalam hadis.</td></tr>
+    <tr><td>Larangan tegas</td><td>Daging babi</td><td>QS. 5:3</td><td>Dilarang dikonsumsi.</td></tr>
+    <tr><td>Hewan buas</td><td>Singa dan harimau</td><td>HR. Muslim 1934a</td><td>Larangan hewan buas bertaring.</td></tr>
+    <tr><td>Burung pemangsa</td><td>Elang dan rajawali</td><td>HR. Muslim 1934a</td><td>Perhatikan pembahasan burung bercakar pemangsa.</td></tr>
+    <tr><td>Perkara syubhat</td><td>Kasus yang tidak jelas</td><td>HR. Bukhari 52</td><td>Perlu pemeriksaan dalil dan penjelasan ahli.</td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<section class="section" id="panduan">
+ <div class="section-head"><div><div class="eyebrow">07 / PANDUAN</div><h2>Cara memeriksa hukum makanan</h2></div></div>
+ <div class="lesson-grid">
+  <article class="box">
+   <h3>📚 Langkah belajar</h3>
+   <ol>
+    <li>Kenali jenis hewan secara tepat.</li>
+    <li>Periksa dalil Al-Qur'an dan hadis yang berkaitan.</li>
+    <li>Bedakan hukum jenis hewan dan hukum cara memperoleh atau menyembelihnya.</li>
+    <li>Perhatikan perbedaan pendapat fikih jika ada.</li>
+    <li>Untuk persoalan nyata, tanyakan kepada ulama atau lembaga fatwa tepercaya.</li>
+   </ol>
+  </article>
+  <article class="box">
+   <h3>🔎 Referensi belajar</h3>
+   <ul>
+    <li><a href="https://quran.com" target="_blank" rel="noopener">Al-Qur'an dan terjemahan</a></li>
+    <li><a href="https://sunnah.com" target="_blank" rel="noopener">Kumpulan hadis dan referensi</a></li>
+    <li><a href="https://mui.or.id" target="_blank" rel="noopener">Majelis Ulama Indonesia</a></li>
+   </ul>
+   <p>Periksa teks asli, konteks, penomoran, dan penilaian hadis sebelum mengutipnya untuk tugas resmi atau publikasi.</p>
+  </article>
+ </div>
+</section>
+
+<section class="section" id="tentang">
+ <div class="section-head"><div><div class="eyebrow">08 / TENTANG WEBSITE</div><h2>Belajar dengan bijak.</h2></div></div>
+ <div class="box">
+  <p>HalalFauna adalah proyek edukasi untuk membantu pembaca mengenal kategori hewan dan prinsip makanan halal-haram dalam Islam. Katalog ini bukan fatwa dan tidak menggantikan penjelasan ulama.</p>
+  <p>Gunakan kontrol di bawah untuk memperbesar atau memperkecil teks. Pengaturan tema dan tampilan juga tersedia.</p>
+  <div class="tools">
+   <button id="minus">A− Perkecil teks</button>
+   <button id="plus">A+ Perbesar teks</button>
+   <button id="reset">↺ Reset teks</button>
+   <button id="top">↑ Ke atas</button>
+  </div>
+  <p id="fontLabel">Ukuran teks: 16 px</p>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="logo">☾ Halal<span>Fauna</span></div>
+ <p>Ensiklopedia edukasi halal & haram dalam Islam.</p>
+ <p>Pelajari dalil, periksa sumber, dan hormati perbedaan pendapat fikih.</p>
+ <small>© <span id="year"></span> HalalFauna · Satu file HTML</small>
+</footer>
+
+<script>
+"use strict";
+
+const animals=[
+ {n:"Sapi",e:"🐄",t:"halal",d:"Hewan ternak yang pada dasarnya halal dikonsumsi dengan memenuhi ketentuan syariat.",r:"QS. Al-Ma'idah: 1"},
+ {n:"Kambing",e:"🐐",t:"halal",d:"Hewan ternak yang halal dimakan jika memenuhi ketentuan penyembelihan.",r:"QS. Al-An'am: 143"},
+ {n:"Domba",e:"🐑",t:"halal",d:"Termasuk hewan ternak yang dibolehkan dengan memperhatikan ketentuan syariat.",r:"QS. Al-An'am: 143"},
+ {n:"Kerbau",e:"🐃",t:"halal",d:"Termasuk kelompok hewan ternak yang pada dasarnya halal dikonsumsi.",r:"QS. Al-Ma'idah: 1"},
+ {n:"Unta",e:"🐪",t:"halal",d:"Hewan ternak yang diperbolehkan dikonsumsi dengan memenuhi ketentuan syariat.",r:"QS. Al-An'am: 144"},
+ {n:"Ayam",e:"🐓",t:"halal",d:"Unggas yang pada dasarnya halal dikonsumsi jika tidak ada sebab pengharam dan penyembelihannya sesuai ketentuan.",r:"Prinsip makanan halal"},
+ {n:"Bebek",e:"🦆",t:"halal",d:"Unggas yang pada dasarnya halal dikonsumsi dengan memenuhi ketentuan syariat.",r:"Prinsip makanan halal"},
+ {n:"Angsa",e:"🪿",t:"halal",d:"Termasuk unggas yang pada dasarnya boleh dimakan jika memenuhi syarat syariat.",r:"Prinsip makanan halal"},
+ {n:"Merpati",e:"🕊️",t:"halal",d:"Bukan burung pemangsa bertaring atau bercakar untuk mencengkeram mangsa.",r:"Pembahasan fikih unggas"},
+ {n:"Burung puyuh",e:"🐦",t:"halal",d:"Unggas yang pada dasarnya halal dikonsumsi sesuai ketentuan syariat.",r:"Prinsip makanan halal"},
+ {n:"Rusa",e:"🦌",t:"halal",d:"Hewan buruan yang pada dasarnya boleh dimakan jika diperoleh sesuai aturan berburu.",r:"QS. Al-Ma'idah: 4"},
+ {n:"Kijang",e:"🦌",t:"halal",d:"Termasuk hewan buruan yang diperbolehkan dengan ketentuan syariat.",r:"QS. Al-Ma'idah: 4"},
+ {n:"Kelinci",e:"🐇",t:"halal",d:"Terdapat riwayat sahih tentang Nabi menerima dan memakan daging kelinci.",r:"HR. Bukhari 5535"},
+ {n:"Kuda",e:"🐎",t:"perlu",d:"Mayoritas ulama membolehkan konsumsi kuda; terdapat perbedaan pendapat fikih, khususnya dalam mazhab Hanafi.",r:"HR. Bukhari 5519"},
+ {n:"Ikan",e:"🐟",t:"halal",d:"Hewan laut yang menjadi dasar pembahasan makanan laut yang dihalalkan.",r:"QS. Al-Ma'idah: 96"},
+ {n:"Udang",e:"🦐",t:"perlu",d:"Banyak ulama membolehkan udang, tetapi rincian hukum hewan laut tertentu dapat berbeda menurut mazhab.",r:"QS. Al-Ma'idah: 96"},
+ {n:"Cumi-cumi",e:"🦑",t:"perlu",d:"Banyak ulama membolehkan hewan laut ini; rincian dapat berbeda menurut mazhab.",r:"QS. Al-Ma'idah: 96"},
+ {n:"Belalang",e:"🦗",t:"halal",d:"Belalang disebut dalam hadis sebagai salah satu bangkai yang dihalalkan.",r:"HR. Ibnu Majah 3314"},
+ {n:"Babi",e:"🐖",t:"haram",d:"Daging babi secara tegas diharamkan dalam Al-Qur'an.",r:"QS. Al-Ma'idah: 3"},
+ {n:"Singa",e:"🦁",t:"haram",d:"Termasuk hewan buas yang memiliki taring untuk memangsa.",r:"HR. Muslim 1934a"},
+ {n:"Harimau",e:"🐅",t:"haram",d:"Termasuk hewan buas bertaring yang dilarang dikonsumsi dalam hadis.",r:"HR. Bukhari 5530"},
+ {n:"Serigala",e:"🐺",t:"haram",d:"Termasuk hewan buas bertaring.",r:"HR. Muslim 1934a"},
+ {n:"Beruang",e:"🐻",t:"haram",d:"Termasuk hewan buas bertaring yang memangsa hewan lain.",r:"HR. Muslim 1934a"},
+ {n:"Elang",e:"🦅",t:"haram",d:"Burung pemangsa bercakar yang termasuk pembahasan larangan burung bercakar.",r:"HR. Muslim 1934a"},
+ {n:"Rajawali",e:"🦅",t:"haram",d:"Burung pemangsa dengan cakar untuk menangkap mangsa.",r:"HR. Muslim 1934a"},
+ {n:"Bangkai hewan darat",e:"🦴",t:"haram",d:"Hewan darat yang mati tanpa penyembelihan sah pada dasarnya dilarang, kecuali pengecualian yang ditetapkan syariat.",r:"QS. Al-Ma'idah: 3"},
+ {n:"Darah mengalir",e:"🩸",t:"haram",d:"Darah yang mengalir disebut dalam larangan makanan di Al-Qur'an.",r:"QS. Al-An'am: 145"},
+ {n:"Anjing",e:"🐕",t:"perlu",d:"Hukum konsumsi dibahas tersendiri dalam fikih. Jangan menetapkan seluruh rincian hanya dari kategori umum hewan.",r:"Rujuk pembahasan fikih"},
+ {n:"Kura-kura",e:"🐢",t:"perlu",d:"Hukum dapat berbeda menurut jenis kura-kura dan mazhab. Periksa identifikasi spesies serta rujukan fikih.",r:"Pembahasan fikih hewan air"},
+ {n:"Katak",e:"🐸",t:"haram",d:"Terdapat hadis yang melarang membunuh katak; ulama membahas hukum konsumsinya berdasarkan dalil terkait.",r:"HR. Abu Dawud 5269"},
+ {n:"Tikus",e:"🐀",t:"haram",d:"Tikus termasuk hewan pengganggu yang disebut dalam hadis tentang hewan yang boleh dibunuh.",r:"HR. Bukhari 1829"},
+ {n:"Kalajengking",e:"🦂",t:"haram",d:"Kalajengking termasuk hewan pengganggu yang disebut dalam hadis; hukum konsumsi merupakan pembahasan tersendiri.",r:"HR. Bukhari 1829"},
+ {n:"Ular",e:"🐍",t:"perlu",d:"Dapat berbahaya atau berbisa. Penetapan hukum konsumsi perlu mempertimbangkan dalil, bahaya, dan fikih.",r:"Rujuk pembahasan fikih"}
+];
+
+let filter="semua";
+const $=s=>document.querySelector(s);
+const grid=$("#grid");
+
+function render(){
+ const q=$("#search").value.trim().toLocaleLowerCase("id");
+ let list=animals.filter(a=>{
+  const match=filter==="semua"||a.t===filter;
+  const text=(a.n+" "+a.d+" "+a.r+" "+a.t).toLocaleLowerCase("id");
+  return match&&text.includes(q);
+ });
+ if($("#sort").value==="az")list.sort((a,b)=>a.n.localeCompare(b.n,"id"));
+ grid.innerHTML=list.map(a=>{
+  const label=a.t==="halal"?"HALAL · BERSYARAT":a.t==="haram"?"HARAM / LARANGAN":"PERLU PENJELASAN";
+  return `<article class="card">
+   <div class="animal-art" aria-hidden="true">${a.e}</div>
+   <div class="card-body"><h3>${a.n}</h3>
+   <span class="pill ${a.t}">${label}</span>
+   <p>${a.d}</p><div class="ref">📖 ${a.r}</div></div>
+  </article>`;
+ }).join("");
+ $("#empty").style.display=list.length?"none":"block";
+}
+$("#search").addEventListener("input",render);
+$("#sort").addEventListener("change",render);
+document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{
+ filter=b.dataset.filter;
+ document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));
+ render();
+}));
+
+$("#theme").addEventListener("click",()=>{
+ document.body.classList.toggle("light");
+ $("#theme").textContent=document.body.classList.contains("light")?"🌙":"☀️";
+});
+let font=16;
+function setFont(n){
+ font=Math.max(12,Math.min(26,n));
+ document.documentElement.style.setProperty("--font",font+"px");
+ $("#fontLabel").textContent="Ukuran teks: "+font+" px";
+}
+$("#plus").addEventListener("click",()=>setFont(font+1));
+$("#minus").addEventListener("click",()=>setFont(font-1));
+$("#reset").addEventListener("click",()=>setFont(16));
+$("#top").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+$("#year").textContent=new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
